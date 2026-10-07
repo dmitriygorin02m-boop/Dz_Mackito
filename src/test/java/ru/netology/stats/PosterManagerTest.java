@@ -5,12 +5,21 @@ import org.junit.jupiter.api.Test;
 
 public class PosterManagerTest {
 
-    @Test                                                               // Добавление фильма
+    // Возврат переменных name и genre
+    @Test
+    public void shouldReturnMovieNameAndGenre() {
+        Movie movie = new Movie("Бладшот", "боевик");
+
+        Assertions.assertEquals("Бладшот", movie.getName());
+        Assertions.assertEquals("боевик", movie.getGenre());
+    }
+
+    // Добавление фильма
+    @Test
     public void shouldAddMovie() {
         PosterManager manager = new PosterManager();
 
         Movie movie = new Movie("Бладшот", "боевик");
-
         manager.add(movie);
 
         Movie[] expected = {movie};
@@ -18,7 +27,9 @@ public class PosterManagerTest {
 
         Assertions.assertArrayEquals(expected, actual);
     }
-    @Test                                                           // Добавление нескольких фильмов
+
+    // Добавление нескольких фильмов по порядку
+    @Test
     public void shouldAddSeveralMovies() {
         PosterManager manager = new PosterManager();
 
@@ -36,7 +47,8 @@ public class PosterManagerTest {
         Assertions.assertArrayEquals(expected, actual);
     }
 
-    @Test                                            // Проверка лимита по умолчанию и порядок добавляения
+    // Добавление фильмов больше лимита и их последовательность
+    @Test
     public void shouldReturnFiveLastMovies() {
         PosterManager manager = new PosterManager();
 
@@ -61,31 +73,8 @@ public class PosterManagerTest {
 
         Assertions.assertArrayEquals(expected, actual);
     }
-    @Test                                                // Выставляемый лимит 3 и порядок добавляения
-    public void shouldFindLast() {
 
-        PosterManager manager = new PosterManager(3);
-
-        Movie movie1 = new Movie("Бладшот", "боевик");
-        Movie movie2 = new Movie("Вперёд", "мультфильм");
-        Movie movie3 = new Movie("Отель \"Белград\"", "комедия");
-        Movie movie4 = new Movie("Джентельмены", "боевик");
-
-        manager.add(movie1);
-        manager.add(movie2);
-        manager.add(movie3);
-        manager.add(movie4);
-
-        Movie[] expected = {
-                movie4,
-                movie3,
-                movie2
-        };
-
-        Movie[] actual = manager.findLast();
-
-        Assertions.assertArrayEquals(expected, actual);
-    }
+    //Добавление фильмов меньше лимита и их последовательность
     @Test
     public void shouldReturnAllMoviesWhenLessThanLimit() {
         PosterManager manager = new PosterManager();
@@ -104,12 +93,24 @@ public class PosterManagerTest {
         Assertions.assertArrayEquals(expected, actual);
     }
 
+    // Выставляемый лимит  и порядок добавляения
     @Test
-    public void shouldReturnMovieNameAndGenre() {
-        Movie movie = new Movie("Бладшот", "боевик");
+    public void shouldFindLast() {
+        PosterManager manager = new PosterManager(3);
 
-        Assertions.assertEquals("Бладшот", movie.getName());
-        Assertions.assertEquals("боевик", movie.getGenre());
+        Movie movie1 = new Movie("Бладшот", "боевик");
+        Movie movie2 = new Movie("Вперёд", "мультфильм");
+        Movie movie3 = new Movie("Отель \"Белград\"", "комедия");
+        Movie movie4 = new Movie("Джентельмены", "боевик");
+
+        manager.add(movie1);
+        manager.add(movie2);
+        manager.add(movie3);
+        manager.add(movie4);
+
+        Movie[] expected = {movie4, movie3, movie2};
+        Movie[] actual = manager.findLast();
+
+        Assertions.assertArrayEquals(expected, actual);
     }
-
 }
